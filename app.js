@@ -3,32 +3,35 @@ let progressInterval = null;
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("yt-player", {
-  height: "100%",
-  width: "100%",
-  playerVars: {
-    autoplay: 0,
-    controls: 0,
-    enablejsapi: 1,
-    modestbranding: 1,
-    rel: 0,
-    playlist: "PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5"
-  },
-  events: {
-    onReady: onPlayerReady,
-    onStateChange: onPlayerStateChange
-  }
-});
-
+    height: "100%",
+    width: "100%",
+    playerVars: {
+      autoplay: 0,
+      controls: 0,
+      enablejsapi: 1,
+      modestbranding: 1,
+      rel: 0,
+      playlist: "PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5"
+    },
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange
+    }
+  });
 }
 
-function onPlayerReady(event) {
+function onPlayerReady() {
   setupControls();
-  updateProgressBar();
   progressInterval = setInterval(updateProgressBar, 1000);
 }
 
 function onPlayerStateChange(event) {
-  // Pode adicionar lógica para mudar ícones de play/pause, se quiser
+  const data = player.getVideoData();
+  const titleEl = document.querySelector(".now-playing h2");
+  const artistEl = document.querySelector(".now-playing p");
+
+  if (titleEl) titleEl.textContent = data.title || "Título da faixa";
+  if (artistEl) artistEl.textContent = data.author || "Artista";
 }
 
 function setupControls() {
@@ -54,15 +57,16 @@ function updateProgressBar() {
     const currentTime = player.getCurrentTime();
     const duration = player.getDuration();
 
-    const progressPercent = (currentTime / duration) * 100;
+    if (duration > 0) {
+      const progressPercent = (currentTime / duration) * 100;
+      const progressEl = document.querySelector(".progress");
+      const timeEl = document.querySelector(".current-time");
+      const durationEl = document.querySelector(".duration");
 
-    const progressEl = document.querySelector(".progress");
-    const timeEl = document.querySelector(".current-time");
-    const durationEl = document.querySelector(".duration");
-
-    if (progressEl) progressEl.style.width = `${progressPercent}%`;
-    if (timeEl) timeEl.textContent = formatTime(currentTime);
-    if (durationEl) durationEl.textContent = formatTime(duration);
+      if (progressEl) progressEl.style.width = `${progressPercent}%`;
+      if (timeEl) timeEl.textContent = formatTime(currentTime);
+      if (durationEl) durationEl.textContent = formatTime(duration);
+    }
   }
 }
 
