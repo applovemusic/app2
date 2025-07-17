@@ -31,8 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const iframe = document.querySelector("iframe");
   const playerWindow = iframe.contentWindow;
 
-  // Função para enviar comandos ao player
-  function sendPlayerCommand(command) {
+  function sendCommand(command) {
     playerWindow.postMessage(
       JSON.stringify({
         event: "command",
@@ -43,15 +42,19 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  // Botões
-  const playBtn = document.querySelector("#btn-play");
-  const pauseBtn = document.querySelector("#btn-pause");
-  const nextBtn = document.querySelector("#btn-next");
-  const prevBtn = document.querySelector("#btn-prev");
+  document.getElementById("btn-play").addEventListener("click", () => {
+    sendCommand("playVideo");
+  });
 
-  // Eventos
-  playBtn.addEventListener("click", () => sendPlayerCommand("playVideo"));
-  pauseBtn.addEventListener("click", () => sendPlayerCommand("pauseVideo"));
-  nextBtn.addEventListener("click", () => sendPlayerCommand("nextVideo"));
-  prevBtn.addEventListener("click", () => sendPlayerCommand("previousVideo"));
+  document.getElementById("btn-pause").addEventListener("click", () => {
+    sendCommand("pauseVideo");
+  });
+
+  document.getElementById("btn-next").addEventListener("click", () => {
+    sendCommand("nextVideo");
+  });
+
+  document.getElementById("btn-prev").addEventListener("click", () => {
+    sendCommand("previousVideo");
+  });
 });
