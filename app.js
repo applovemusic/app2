@@ -1,0 +1,57 @@
+const API_KEY = "SUA_CHAVE_DE_API";
+const PLAYLIST_ID = "PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5";
+const MAX_RESULTS = 10;
+
+async function fetchPlaylistItems() {
+  const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`;
+
+  const response = await fetch(url);
+  const data = await response.json();
+
+  const playlistSection = document.querySelector(".playlist");
+  playlistSection.innerHTML = ""; // Limpa conteúdo anterior
+
+  data.items.forEach(item => {
+    const title = item.snippet.title;
+    const videoId = item.snippet.resourceId.videoId;
+
+    const track = document.createElement("div");
+    track.className = "track";
+    track.textContent = title;
+    track.dataset.videoId = videoId;
+
+    playlistSection.appendChild(track);
+  });
+}
+
+fetchPlaylistItems();
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const iframe = document.querySelector("iframe");
+  const playerWindow = iframe.contentWindow;
+
+  // Função para enviar comandos ao player
+  function sendPlayerCommand(command) {
+    playerWindow.postMessage(
+      JSON.stringify({
+        event: "command",
+        func: command,
+        args: [],
+      }),
+      "*"
+    );
+  }
+
+  // Botões
+  const playBtn = document.querySelector("#btn-play");
+  const pauseBtn = document.querySelector("#btn-pause");
+  const nextBtn = document.querySelector("#btn-next");
+  const prevBtn = document.querySelector("#btn-prev");
+
+  // Eventos
+  playBtn.addEventListener("click", () => sendPlayerCommand("playVideo"));
+  pauseBtn.addEventListener("click", () => sendPlayerCommand("pauseVideo"));
+  nextBtn.addEventListener("click", () => sendPlayerCommand("nextVideo"));
+  prevBtn.addEventListener("click", () => sendPlayerCommand("previousVideo"));
+});

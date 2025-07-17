@@ -1,0 +1,131 @@
+:root {
+  font-size: clamp(14px, 2vw, 18px);
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #101010;
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.main-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (orientation: landscape) {
+  .main-layout {
+    flex-direction: row;
+  }
+}
+
+.video-player {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.video-player iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+}
+
+.info-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  gap: 1rem;
+  overflow-y: auto;
+}
+
+.playlist .track {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.playlist .track:hover {
+  background-color: #222;
+}
+
+.now-playing h2 {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  margin: 0;
+}
+
+.now-playing p {
+  margin: 0.3rem 0;
+  color: #aaa;
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progress-bar .bar {
+  flex-grow: 1;
+  background: #333;
+  border-radius: 4px;
+  height: 6px;
+  position: relative;
+}
+
+.progress-bar .progress {
+  position: absolute;
+  height: 6px;
+  width: 50%;
+  background: #f00;
+  border-radius: 4px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  gap: 0.5rem;
+  flex-wrap: nowrap; /* Impede quebra de linha */
+  overflow-x: auto; /* Permite rolagem horizontal se necessário */
+}
+
+
+.control {
+  background-color: #222;
+  border: none;
+  border-radius: 50%;
+  width: clamp(50px, 10vw, 70px);
+  height: clamp(50px, 10vw, 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.control:hover {
+  background-color: #333;
+}
+
+.control img {
+  width: 60%;
+  height: auto;
+}
+
