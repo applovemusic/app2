@@ -3,21 +3,22 @@ let progressInterval = null;
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("yt-player", {
-    height: "100%",
-    width: "100%",
-    playerVars: {
-      listType: "playlist",
-      list: "PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5",
-      controls: 0,
-      enablejsapi: 1,
-      modestbranding: 1,
-      rel: 0
-    },
-    events: {
-      onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange
-    }
-  });
+  height: "100%",
+  width: "100%",
+  playerVars: {
+    autoplay: 0,
+    controls: 0,
+    enablejsapi: 1,
+    modestbranding: 1,
+    rel: 0,
+    playlist: "PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5"
+  },
+  events: {
+    onReady: onPlayerReady,
+    onStateChange: onPlayerStateChange
+  }
+});
+
 }
 
 function onPlayerReady(event) {
