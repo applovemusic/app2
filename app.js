@@ -5,14 +5,13 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player("yt-player", {
     height: "100%",
     width: "100%",
-    videoId: "1OgQdgSQB3o",
+    videoId: "1OgQdgSQB3o", // ID inicial apenas para carregar algo
     playerVars: {
       autoplay: 0,
       controls: 0,
       enablejsapi: 1,
       modestbranding: 1,
-      rel: 0,
-      playlist: "PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5"
+      rel: 0
     },
     events: {
       onReady: onPlayerReady,
@@ -23,6 +22,15 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady() {
   setupControls();
+
+  // Carregando playlist explicitamente
+  player.loadPlaylist({
+    list: "PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5",
+    index: 0,
+    startSeconds: 0,
+    suggestedQuality: "default"
+  });
+
   progressInterval = setInterval(updateProgressBar, 1000);
 }
 
@@ -54,7 +62,7 @@ function setupControls() {
 }
 
 function updateProgressBar() {
-  if (player && player.getDuration) {
+  if (player && typeof player.getDuration === "function") {
     const currentTime = player.getCurrentTime();
     const duration = player.getDuration();
 
