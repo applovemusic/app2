@@ -6,7 +6,6 @@
   <title>Player YouTube Responsivo</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
   <div class="player-container">
@@ -24,35 +23,34 @@
           <h2>Título da faixa</h2>
           <p>Artista</p>
           <div class="progress-bar">
-            <span class="current-time">1:23</span>
+            <span class="current-time">0:00</span>
             <div class="bar"><span class="progress"></span></div>
-            <span class="duration">3:57</span>
+            <span class="duration">0:00</span>
           </div>
         </div>
 
         <div class="controls">
-  <button id="btn-share" class="control">
-    <img src="controls/share.svg" alt="Compartilhar" />
-  </button>
-  <button id="btn-prev" class="control">
-    <img src="controls/prev.svg" alt="Anterior" />
-  </button>
-  <button id="btn-play" class="control">
-    <img src="controls/play.svg" alt="Play" />
-  </button>
-  <button id="btn-next" class="control">
-    <img src="controls/next.svg" alt="Próximo" />
-  </button>
-  <button id="btn-playlist" class="control">
-    <img src="controls/playlist.svg" alt="Playlist" />
-  </button>
-</div>
-
-        
+          <button id="btn-share" class="control">
+            <img src="controls/share.svg" alt="Compartilhar" />
+          </button>
+          <button id="btn-prev" class="control">
+            <img src="controls/prev.svg" alt="Anterior" />
+          </button>
+          <button id="btn-play" class="control">
+            <img src="controls/play.svg" alt="Play" />
+          </button>
+          <button id="btn-pause" class="control">
+            <img src="controls/pause.svg" alt="Pause" />
+          </button>
+          <button id="btn-next" class="control">
+            <img src="controls/next.svg" alt="Próximo" />
+          </button>
+        </div>
       </section>
     </div>
   </div>
 
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script src="app.js"></script>
 </body>
 </html>
