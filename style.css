@@ -268,13 +268,16 @@ button:focus svg {
 }
 
 .playlist-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 1rem;
   background-color: #000;
   border-bottom: 1px solid #333;
 }
 
 .search-bar {
-  width: 100%;
+  flex: 1;
   padding: 0.75rem;
   font-size: 1rem;
   border: none;
@@ -309,7 +312,6 @@ button:focus svg {
   padding: 0.5rem 1rem;
   background-color: #000;
 }
-
 #closePlaylist {
   background: none;
   border: none;
@@ -320,5 +322,5 @@ button:focus svg {
 }
 
 #closePlaylist:hover {
-  color: #f76700;
+  color: var(--accent-color);
 }

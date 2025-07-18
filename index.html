@@ -62,6 +62,7 @@
 <!-- Modal da playlist (inicialmente oculto) -->
 <div id="modal-playlist" class="modal hidden">
   <div class="playlist-fullscreen">
+
     <div class="playlist-header">
       <input
         type="text"
@@ -69,11 +70,12 @@
         placeholder="Buscar vídeo na playlist..."
         class="search-bar"
       />
-    </div>
-    <div id="playlist-content" class="playlist-content">
-      <!-- Itens da playlist serão injetados dinamicamente -->
-    </div>
+      <button id="closePlaylist" aria-label="Fechar Playlist">✖</button>
   </div>
+<div id="playlist-content" class="playlist-content">
+  <!-- Itens da playlist serão injetados dinamicamente -->
+</div>
+
 </div>
 
 
