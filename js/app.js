@@ -27,6 +27,7 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(event) {
   event.target.playVideo();
   setupCustomControls(); // ativar controles personalizados
+  updateVideoInfo(); // Atualiza título/autor ao iniciar
 }
 
 function onPlayerStateChange(event) {
@@ -64,4 +65,13 @@ function setupCustomControls() {
     const randomIndex = Math.floor(Math.random() * playlist.length);
     player.playVideoAt(randomIndex);
   });
+}
+//Função para capturar título e artista do vídeo atual
+function updateVideoInfo() {
+  const data = player.getVideoData();
+  const titleEl = document.querySelector('.video-title');
+  const artistEl = document.querySelector('.video-artist');
+
+  if (titleEl) titleEl.textContent = data.title || 'Titulo';
+  if (artistEl) artistEl.textContent = data.author || 'Artista';
 }
