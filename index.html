@@ -1,56 +1,74 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Player YouTube Responsivo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <title>LoveMusic</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
+
+  <!-- Player (iframe ocupa 50% da tela, sem bordas/margens) -->
   <div class="player-container">
-    <div class="main-layout">
-      <section class="video-player">
-        <div id="yt-player"></div>
-      </section>
-
-      <section class="info-panel">
-        <div class="playlist">
-          <!-- Tracks dinâmicas aqui -->
-        </div>
-
-        <div class="now-playing">
-          <h2>Título da faixa</h2>
-          <p>Artista</p>
-          <div class="progress-bar">
-            <span class="current-time">0:00</span>
-            <div class="bar"><span class="progress"></span></div>
-            <span class="duration">0:00</span>
-          </div>
-        </div>
-
-        <div class="controls">
-          <button id="btn-share" class="control">
-            <img src="controls/share.svg" alt="Compartilhar" />
-          </button>
-          <button id="btn-prev" class="control">
-            <img src="controls/prev.svg" alt="Anterior" />
-          </button>
-          <button id="btn-play" class="control">
-            <img src="controls/play.svg" alt="Play" />
-          </button>
-          <button id="btn-pause" class="control">
-            <img src="controls/pause.svg" alt="Pause" />
-          </button>
-          <button id="btn-next" class="control">
-            <img src="controls/next.svg" alt="Próximo" />
-          </button>
-        </div>
-      </section>
-    </div>
+    <iframe 
+      src="https://www.youtube.com/embed/VIDEO_ID?autoplay=1&controls=0&rel=0&showinfo=0"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      class="video-frame"
+    ></iframe>
   </div>
 
-  <script src="https://www.youtube.com/iframe_api"></script>
-  <script src="app.js"></script>
+  <!-- Controles -->
+  <div class="controls-container">
+    
+    <!-- Playlist (scroll vertical) -->
+<div class="section playlist">
+  <ul id="playlist-videos">
+    <!-- Itens da playlist serão injetados via JavaScript -->
+  </ul>
+</div>
+
+
+    <!-- Botões de interação -->
+    <div class="section interaction-buttons">
+      <button><svg><!-- compartilhar --></svg></button>
+      <button><svg><!-- doar --></svg></button>
+    </div>
+
+<div class="player-footer">
+  <div class="section info">
+    <h2 class="video-title">Nome do Vídeo</h2>
+    <p class="video-artist">Nome do Artista</p>
+  </div>
+
+  <div class="section progress-bar">
+    <span class="time current-time">00:00</span>
+    <div class="bar">
+      <div class="progress"></div>
+    </div>
+    <span class="time total-time">04:21</span>
+  </div>
+
+  <div class="section control-buttons">
+    <img src="./icons/shuffle.svg" alt="Play" />
+    <img src="./icons/prev.svg" alt="Play" />
+    <img src="./icons/play.svg" alt="Play" />
+    <img src="./icons/next.svg" alt="Play" />
+    <img src="./icons/playlist.svg" alt="Play" />
+  </div>
+</div>
+
+
+  <!-- Estrutura base vazia para ser preenchida via JS -->
+<div id="modal-playlist" class="modal hidden">
+  <div class="modal-content">
+    <!-- Conteúdo será gerado dinamicamente -->
+  </div>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/controls.js"></script>
 </body>
 </html>
