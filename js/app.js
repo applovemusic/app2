@@ -26,10 +26,42 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
   event.target.playVideo();
+  setupCustomControls(); // ativar controles personalizados
 }
 
 function onPlayerStateChange(event) {
   if (event.data === YT.PlayerState.ENDED) {
     event.target.nextVideo(); // avança na playlist
   }
+}
+
+//Função para controlar o player via botões personalizados
+function setupCustomControls() {
+  const btnPlay = document.querySelector('img[src*="play.svg"]');
+  const btnNext = document.querySelector('img[src*="next.svg"]');
+  const btnPrev = document.querySelector('img[src*="prev.svg"]');
+  const btnShuffle = document.querySelector('img[src*="shuffle.svg"]');
+
+  btnPlay?.addEventListener('click', () => {
+    const state = player.getPlayerState();
+    if (state === YT.PlayerState.PLAYING) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+  });
+
+  btnNext?.addEventListener('click', () => {
+    player.nextVideo();
+  });
+
+  btnPrev?.addEventListener('click', () => {
+    player.previousVideo();
+  });
+
+  btnShuffle?.addEventListener('click', () => {
+    const playlist = player.getPlaylist();
+    const randomIndex = Math.floor(Math.random() * playlist.length);
+    player.playVideoAt(randomIndex);
+  });
 }
