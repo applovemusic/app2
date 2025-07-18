@@ -2,8 +2,9 @@ let player;
 const playlistId = 'PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5';
 const initialVideoId = 'xiN4EOqpvwc';
 let playlistData = [];
+let progressInterval;
 
-// Inicializa o player com vídeo inicial e playlist
+// API do YouTube pronta
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('video-frame', {
     height: '100%',
@@ -26,22 +27,23 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
-// Executado quando o player está pronto
+// Player pronto
 function onPlayerReady(event) {
   event.target.playVideo();
   setupCustomControls();
   updateVideoInfo();
   enableSeekBar();
+  setupPlaylistSearch();
 
-  // Atualiza a barra de progresso a cada 500ms
-  setInterval(() => {
+  clearInterval(progressInterval);
+  progressInterval = setInterval(() => {
     if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
       updateProgressBar();
     }
   }, 500);
 }
 
-// Detecta mudanças no estado do vídeo
+// Estado do player
 function onPlayerStateChange(event) {
   if (event.data === YT.PlayerState.ENDED) {
     player.nextVideo();
@@ -64,7 +66,7 @@ function onPlayerStateChange(event) {
   }
 }
 
-// Atualiza título e artista do vídeo atual
+// Atualiza título/artista
 function updateVideoInfo() {
   const data = player.getVideoData();
   const titleEl = document.querySelector('.video-title');
@@ -74,7 +76,7 @@ function updateVideoInfo() {
   if (artistEl) artistEl.textContent = data.author || 'Artista';
 }
 
-// Atualiza a barra de progresso
+// Barra de progresso
 function updateProgressBar() {
   const duration = player.getDuration();
   const currentTime = player.getCurrentTime();
@@ -91,14 +93,14 @@ function updateProgressBar() {
   if (totalTimeEl) totalTimeEl.textContent = formatTime(duration);
 }
 
-// Formata o tempo (ex: 2:03)
+// Formata tempo (min:seg)
 function formatTime(seconds) {
   const min = Math.floor(seconds / 60);
   const sec = Math.floor(seconds % 60).toString().padStart(2, '0');
   return `${min}:${sec}`;
 }
 
-// Permite clicar na barra de progresso para pular o vídeo
+// Clique na barra para pular
 function enableSeekBar() {
   const barEl = document.querySelector('.bar');
 
@@ -113,7 +115,7 @@ function enableSeekBar() {
   });
 }
 
-// Configura os botões personalizados
+// Controles personalizados
 function setupCustomControls() {
   const btnPlay = document.querySelector('img[src*="play.svg"]');
   const btnNext = document.querySelector('img[src*="next.svg"]');
@@ -143,7 +145,7 @@ function setupCustomControls() {
 
   btnPlaylist?.addEventListener('click', () => {
     const modal = document.getElementById('modal-playlist');
-    modal.classList.remove('hidden');
+    modal?.classList.remove('hidden');
 
     const playlistIds = player.getPlaylist();
     if (playlistData.length === 0 && playlistIds?.length) {
@@ -158,14 +160,15 @@ function setupCustomControls() {
   });
 
   btnClose?.addEventListener('click', () => {
-    document.getElementById('modal-playlist').classList.add('hidden');
+    document.getElementById('modal-playlist')?.classList.add('hidden');
   });
 }
 
-// Renderiza os itens da playlist no modal
+// Renderiza a playlist
 function renderPlaylist(items) {
   const container = document.getElementById('playlist-content');
-  const searchInput = document.getElementById('playlist-search');
+  if (!container) return;
+
   container.innerHTML = '';
 
   items.forEach((video) => {
@@ -177,14 +180,19 @@ function renderPlaylist(items) {
       if (index !== -1) {
         player.playVideoAt(index);
         updateVideoInfo();
-        document.getElementById('modal-playlist').classList.add('hidden');
+        document.getElementById('modal-playlist')?.classList.add('hidden');
       }
     };
     container.appendChild(item);
   });
+}
 
-  // Filtro de busca
-  searchInput?.addEventListener('input', () => {
+// Filtro de busca da playlist (executa só 1 vez)
+function setupPlaylistSearch() {
+  const searchInput = document.getElementById('playlist-search');
+  if (!searchInput) return;
+
+  searchInput.addEventListener('input', () => {
     const text = searchInput.value.trim().toLowerCase();
     const filtered = playlistData.filter(v =>
       (v.title || '').toLowerCase().includes(text) ||
