@@ -27,6 +27,7 @@ body {
 .player-container {
   flex: 0 0 50vh;
   max-height: 50vh;
+  height: 50dvh;
 }
 
 .video-frame {
@@ -34,7 +35,21 @@ body {
   height: 100%;
   display: block;
   border: none;
+  margin:0;
+  padding: 0;
 }
+
+#video-frame iframe {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  border: none;
+}
+
+.player-container {
+  overflow: hidden;
+}
+
 
 .controls-container {
   flex: 0 0 50vh;
@@ -187,7 +202,7 @@ button:focus svg {
   
   display: flex;
   flex-direction: column;
-  bottom: 10px;
+  bottom: 0;
   position: fixed;
   width: 100%;
   right: 0;
