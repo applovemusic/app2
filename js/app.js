@@ -1,7 +1,9 @@
 let player;
 const playlistId = 'PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5';
 const initialVideoId = 'xiN4EOqpvwc';
+let playlistData = [];
 
+// Inicializa o player com vídeo inicial e playlist
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('video-frame', {
     height: '100%',
@@ -24,70 +26,55 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
+// Executado quando o player está pronto
 function onPlayerReady(event) {
   event.target.playVideo();
-  setupCustomControls(); // ativar controles personalizados
-  updateVideoInfo(); // Atualiza título/autor ao iniciar
-  //Atualizar a barra a cada 500ms
-  setInterval(() => {
-  if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
-    updateProgressBar();
-  }
-}, 500);
-
+  setupCustomControls();
+  updateVideoInfo();
   enableSeekBar();
 
+  // Atualiza a barra de progresso a cada 500ms
+  setInterval(() => {
+    if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
+      updateProgressBar();
+    }
+  }, 500);
 }
 
+// Detecta mudanças no estado do vídeo
 function onPlayerStateChange(event) {
   if (event.data === YT.PlayerState.ENDED) {
-    event.target.nextVideo(); // avança na playlist
-  }
-  if (event.data === YT.PlayerState.PLAYING) {
-    setTimeout(updateVideoInfo, 500); //exibe titulo e artista
-  }
-}
-
-//Função para controlar o player via botões personalizados
-function setupCustomControls() {
-  const btnPlay = document.querySelector('img[src*="play.svg"]');
-  const btnNext = document.querySelector('img[src*="next.svg"]');
-  const btnPrev = document.querySelector('img[src*="prev.svg"]');
-  const btnShuffle = document.querySelector('img[src*="shuffle.svg"]');
-
-  btnPlay?.addEventListener('click', () => {
-    const state = player.getPlayerState();
-    if (state === YT.PlayerState.PLAYING) {
-      player.pauseVideo();
-    } else {
-      player.playVideo();
-    }
-  });
-
-  btnNext?.addEventListener('click', () => {
     player.nextVideo();
-  });
+  }
 
-  btnPrev?.addEventListener('click', () => {
-    player.previousVideo();
-  });
+  if (event.data === YT.PlayerState.PLAYING) {
+    setTimeout(() => {
+      updateVideoInfo();
 
-  btnShuffle?.addEventListener('click', () => {
-    const playlist = player.getPlaylist();
-    const randomIndex = Math.floor(Math.random() * playlist.length);
-    player.playVideoAt(randomIndex);
-  });
+      const data = player.getVideoData();
+      const exists = playlistData.some(v => v.id === data.video_id);
+      if (!exists) {
+        playlistData.push({
+          id: data.video_id,
+          title: data.title,
+          author: data.author,
+        });
+      }
+    }, 500);
+  }
 }
-//Função para capturar título e artista do vídeo atual
+
+// Atualiza título e artista do vídeo atual
 function updateVideoInfo() {
   const data = player.getVideoData();
   const titleEl = document.querySelector('.video-title');
   const artistEl = document.querySelector('.video-artist');
 
-  if (titleEl) titleEl.textContent = data.title || 'Titulo';
+  if (titleEl) titleEl.textContent = data.title || 'Título';
   if (artistEl) artistEl.textContent = data.author || 'Artista';
 }
-//Função para atualizar a barra de progresso em tempo real
+
+// Atualiza a barra de progresso
 function updateProgressBar() {
   const duration = player.getDuration();
   const currentTime = player.getCurrentTime();
@@ -103,13 +90,15 @@ function updateProgressBar() {
   if (currentTimeEl) currentTimeEl.textContent = formatTime(currentTime);
   if (totalTimeEl) totalTimeEl.textContent = formatTime(duration);
 }
-//Função para formatar tempo (ex: 2:03)
+
+// Formata o tempo (ex: 2:03)
 function formatTime(seconds) {
   const min = Math.floor(seconds / 60);
   const sec = Math.floor(seconds % 60).toString().padStart(2, '0');
   return `${min}:${sec}`;
 }
-//Permitir clique na barra para pular no vídeo
+
+// Permite clicar na barra de progresso para pular o vídeo
 function enableSeekBar() {
   const barEl = document.querySelector('.bar');
 
@@ -123,79 +112,84 @@ function enableSeekBar() {
     player.seekTo(newTime, true);
   });
 }
-//modal
-document.querySelector('img[src*="playlist.svg"]').addEventListener('click', () => {
-  document.getElementById('modal-playlist').classList.remove('hidden');
-  loadPlaylistToModal(); // Carrega conteúdo dinâmico
-});
 
+// Configura os botões personalizados
+function setupCustomControls() {
+  const btnPlay = document.querySelector('img[src*="play.svg"]');
+  const btnNext = document.querySelector('img[src*="next.svg"]');
+  const btnPrev = document.querySelector('img[src*="prev.svg"]');
+  const btnShuffle = document.querySelector('img[src*="shuffle.svg"]');
+  const btnPlaylist = document.querySelector('img[src*="playlist.svg"]');
+  const btnClose = document.getElementById('closePlaylist');
 
-//JavaScript para fechar e carregar conteúdo
+  btnPlay?.addEventListener('click', () => {
+    const state = player.getPlayerState();
+    state === YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo();
+  });
 
-document.querySelector('img[src*="playlist.svg"]').addEventListener('click', () => {
-  const modal = document.getElementById('modal-playlist');
-  modal.classList.remove('hidden');
-  loadPlaylistContent(); // carregar dinamicamente os vídeos
-});
+  btnNext?.addEventListener('click', () => {
+    player.nextVideo();
+  });
 
-document.getElementById('closePlaylist').addEventListener('click', () => {
-  document.getElementById('modal-playlist').classList.add('hidden');
-});
+  btnPrev?.addEventListener('click', () => {
+    player.previousVideo();
+  });
 
-//Função loadPlaylistContent() (dinâmica, como você pediu)
-function loadPlaylistContent() {
-  const container = document.getElementById('playlist-content');
-  container.innerHTML = '<p style="color:#aaa;">Carregando playlist...</p>';
+  btnShuffle?.addEventListener('click', () => {
+    const playlist = player.getPlaylist();
+    const randomIndex = Math.floor(Math.random() * playlist.length);
+    player.playVideoAt(randomIndex);
+  });
 
- 
+  btnPlaylist?.addEventListener('click', () => {
+    const modal = document.getElementById('modal-playlist');
+    modal.classList.remove('hidden');
+
+    const playlistIds = player.getPlaylist();
+    if (playlistData.length === 0 && playlistIds?.length) {
+      playlistData = playlistIds.map((id, index) => ({
+        id,
+        title: `Faixa ${index + 1}`,
+        author: 'Artista desconhecido',
+      }));
+    }
+
+    renderPlaylist(playlistData);
+  });
+
+  btnClose?.addEventListener('click', () => {
+    document.getElementById('modal-playlist').classList.add('hidden');
+  });
 }
-//mostra playlist
-function loadPlaylistToModal() {
-  const playlistEl = document.getElementById('playlist-content');
+
+// Renderiza os itens da playlist no modal
+function renderPlaylist(items) {
+  const container = document.getElementById('playlist-content');
   const searchInput = document.getElementById('playlist-search');
+  container.innerHTML = '';
 
-  if (!player || !player.getPlaylist) return;
-
-  const playlistIds = player.getPlaylist();
-  playlistEl.innerHTML = '';
-
-  // Obtem dados dos vídeos (título e autor) para exibir
-  const items = playlistIds.map((id, index) => {
-    const data = player.getVideoData(); // A API não retorna o título da lista completa, só do atual
-    return {
-      id,
-      title: `Vídeo ${index + 1}`,
-    };
-  });
-
-  // Renderiza a lista
   items.forEach((video) => {
-    const div = document.createElement('div');
-    div.classList.add('playlist-item');
-    div.textContent = video.title;
-    div.addEventListener('click', () => {
-      player.playVideoAt(items.indexOf(video));
-      updateVideoInfo(); // Atualiza título e autor no rodapé
-      document.getElementById('modal-playlist').classList.add('hidden');
-    });
-    playlistEl.appendChild(div);
-  });
-
-  // Busca dinâmica
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase();
-    const filtered = items.filter((v) => v.title.toLowerCase().includes(query));
-    playlistEl.innerHTML = '';
-    filtered.forEach((video) => {
-      const div = document.createElement('div');
-      div.classList.add('playlist-item');
-      div.textContent = video.title;
-      div.addEventListener('click', () => {
-        player.playVideoAt(items.indexOf(video));
+    const item = document.createElement('div');
+    item.classList.add('playlist-item');
+    item.textContent = `${video.title} – ${video.author}`;
+    item.onclick = () => {
+      const index = playlistData.findIndex(v => v.id === video.id);
+      if (index !== -1) {
+        player.playVideoAt(index);
         updateVideoInfo();
         document.getElementById('modal-playlist').classList.add('hidden');
-      });
-      playlistEl.appendChild(div);
-    });
+      }
+    };
+    container.appendChild(item);
+  });
+
+  // Filtro de busca
+  searchInput?.addEventListener('input', () => {
+    const text = searchInput.value.trim().toLowerCase();
+    const filtered = playlistData.filter(v =>
+      (v.title || '').toLowerCase().includes(text) ||
+      (v.author || '').toLowerCase().includes(text)
+    );
+    renderPlaylist(filtered);
   });
 }
