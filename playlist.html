@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playlist</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: sans-serif;
+    }
+
+    .playlist-modal {
+      position: fixed;
+      inset: 0;
+      background-color: #111;
+      display: flex;
+      flex-direction: column;
+      z-index: 10000;
+    }
+
+    .playlist-header {
+      padding: 1rem;
+      background-color: #000;
+      border-bottom: 1px solid #333;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: none;
+      outline: none;
+      background-color: #222;
+      color: #fff;
+    }
+
+    .playlist-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .playlist-item {
+      padding: 0.75rem;
+      background-color: #1a1a1a;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .playlist-item:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="playlist-modal">
+    <div class="playlist-header">
+      <input
+        type="text"
+        class="search-bar"
+        placeholder="Buscar vídeo na playlist..."
+        id="searchInput"
+      />
+    </div>
+
+    <div class="playlist-content" id="playlistContainer">
+      <!-- Itens da playlist serão injetados via JavaScript -->
+    </div>
+  </div>
+
+  <script>
+    // Simulação básica (substitua com os dados reais da playlist)
+    const videos = [
+      { id: 'xiN4EOqpvwc', title: 'Faixa 1 - Início' },
+      { id: 'abc123xyz', title: 'Faixa 2 - Energia' },
+      { id: 'def456uvw', title: 'Faixa 3 - Vibração' },
+    ];
+
+    const playlistContainer = document.getElementById('playlistContainer');
+    const searchInput = document.getElementById('searchInput');
+
+    function renderPlaylist(items) {
+      playlistContainer.innerHTML = '';
+      items.forEach((video) => {
+        const item = document.createElement('div');
+        item.classList.add('playlist-item');
+        item.textContent = video.title;
+        item.onclick = () => {
+          window.parent.postMessage({ type: 'play', videoId: video.id }, '*');
+        };
+        playlistContainer.appendChild(item);
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      const filtered = videos.filter((v) => v.title.toLowerCase().includes(query));
+      renderPlaylist(filtered);
+    });
+
+    // Inicializar
+    renderPlaylist(videos);
+  </script>
+</body>
+</html>

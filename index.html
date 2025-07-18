@@ -55,12 +55,27 @@
 </div>
 
 
-  <!-- Estrutura base vazia para ser preenchida via JS -->
+
+<!-- Modal da playlist (inicialmente oculto) -->
 <div id="modal-playlist" class="modal hidden">
-  <div class="modal-content">
-    <!-- Conteúdo será gerado dinamicamente -->
+  <div class="playlist-fullscreen">
+    <div class="playlist-header">
+      <input
+        type="text"
+        id="playlist-search"
+        placeholder="Buscar vídeo na playlist..."
+        class="search-bar"
+      />
+    </div>
+    <div id="playlist-content" class="playlist-content">
+      <!-- Itens da playlist serão injetados dinamicamente -->
+    </div>
   </div>
 </div>
+
+
+
+
 
 <script src="https://www.youtube.com/iframe_api"></script>
   <script src="./js/app.js"></script>
