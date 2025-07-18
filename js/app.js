@@ -126,7 +126,9 @@ function enableSeekBar() {
 //modal
 document.querySelector('img[src*="playlist.svg"]').addEventListener('click', () => {
   document.getElementById('modal-playlist').classList.remove('hidden');
+  loadPlaylistToModal(); // Carrega conteúdo dinâmico
 });
+
 
 //JavaScript para fechar e carregar conteúdo
 
@@ -145,5 +147,55 @@ function loadPlaylistContent() {
   const container = document.getElementById('playlist-content');
   container.innerHTML = '<p style="color:#aaa;">Carregando playlist...</p>';
 
-  // TODO: carregar itens dinamicamente com base no playlistId
+ 
+}
+//mostra playlist
+function loadPlaylistToModal() {
+  const playlistEl = document.getElementById('playlist-content');
+  const searchInput = document.getElementById('playlist-search');
+
+  if (!player || !player.getPlaylist) return;
+
+  const playlistIds = player.getPlaylist();
+  playlistEl.innerHTML = '';
+
+  // Obtem dados dos vídeos (título e autor) para exibir
+  const items = playlistIds.map((id, index) => {
+    const data = player.getVideoData(); // A API não retorna o título da lista completa, só do atual
+    return {
+      id,
+      title: `Vídeo ${index + 1}`,
+    };
+  });
+
+  // Renderiza a lista
+  items.forEach((video) => {
+    const div = document.createElement('div');
+    div.classList.add('playlist-item');
+    div.textContent = video.title;
+    div.addEventListener('click', () => {
+      player.playVideoAt(items.indexOf(video));
+      updateVideoInfo(); // Atualiza título e autor no rodapé
+      document.getElementById('modal-playlist').classList.add('hidden');
+    });
+    playlistEl.appendChild(div);
+  });
+
+  // Busca dinâmica
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    const filtered = items.filter((v) => v.title.toLowerCase().includes(query));
+    playlistEl.innerHTML = '';
+    filtered.forEach((video) => {
+      const div = document.createElement('div');
+      div.classList.add('playlist-item');
+      div.textContent = video.title;
+      div.addEventListener('click', () => {
+        player.playVideoAt(items.indexOf(video));
+        updateVideoInfo();
+        document.getElementById('modal-playlist').classList.add('hidden');
+      });
+      playlistEl.appendChild(div);
+    });
+  });
 }
