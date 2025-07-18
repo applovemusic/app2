@@ -123,3 +123,9 @@ function enableSeekBar() {
     player.seekTo(newTime, true);
   });
 }
+//modal
+document.querySelector('img[src*="playlist.svg"]').addEventListener('click', () => {
+  document.getElementById('modal-playlist').classList.remove('hidden');
+});
+
+// Opcional: fechar com Esc ou clique fora futuramente
