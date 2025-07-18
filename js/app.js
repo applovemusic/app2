@@ -34,6 +34,10 @@ function onPlayerStateChange(event) {
   if (event.data === YT.PlayerState.ENDED) {
     event.target.nextVideo(); // avança na playlist
   }
+  if (event.data === YT.PlayerState.PLAYING) {
+    // Aguarda 500ms para garantir que os dados estejam disponíveis
+    setTimeout(updateVideoInfo, 500);
+  }
 }
 
 //Função para controlar o player via botões personalizados
