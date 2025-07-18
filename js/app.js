@@ -128,4 +128,22 @@ document.querySelector('img[src*="playlist.svg"]').addEventListener('click', () 
   document.getElementById('modal-playlist').classList.remove('hidden');
 });
 
-// Opcional: fechar com Esc ou clique fora futuramente
+//JavaScript para fechar e carregar conteúdo
+
+document.querySelector('img[src*="playlist.svg"]').addEventListener('click', () => {
+  const modal = document.getElementById('modal-playlist');
+  modal.classList.remove('hidden');
+  loadPlaylistContent(); // carregar dinamicamente os vídeos
+});
+
+document.getElementById('closePlaylist').addEventListener('click', () => {
+  document.getElementById('modal-playlist').classList.add('hidden');
+});
+
+//Função loadPlaylistContent() (dinâmica, como você pediu)
+function loadPlaylistContent() {
+  const container = document.getElementById('playlist-content');
+  container.innerHTML = '<p style="color:#aaa;">Carregando playlist...</p>';
+
+  // TODO: carregar itens dinamicamente com base no playlistId
+}

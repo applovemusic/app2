@@ -302,3 +302,23 @@ button:focus svg {
 .playlist-item:hover {
   background-color: #333;
 }
+/*BOTAO FECHAR MODAL*/
+.playlist-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem 1rem;
+  background-color: #000;
+}
+
+#closePlaylist {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+#closePlaylist:hover {
+  color: #f76700;
+}
