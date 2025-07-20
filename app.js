@@ -62,4 +62,22 @@ document.addEventListener('DOMContentLoaded', () => {
         isPlaying = true;
         togglePlayPauseIcon(isPlaying);
     });
+
+    function atualizarBarraProgresso(percent) {
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar) {
+            progressBar.value = percent;
+            progressBar.style.setProperty('--progress', percent + '%');
+            // Para Firefox, atualiza o background linear
+            progressBar.style.background = `linear-gradient(to right, #e53935 ${percent}%, #333 ${percent}%)`;
+        }
+    }
+
+    // Exemplo de uso (substitua pelo controle real do tempo do vídeo)
+    // Simulação: atualiza a barra a cada segundo
+    let fakePercent = 0;
+    setInterval(() => {
+        fakePercent = (fakePercent + 1) % 101;
+        atualizarBarraProgresso(fakePercent);
+    }, 1000);
 });
