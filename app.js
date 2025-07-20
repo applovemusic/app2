@@ -24,8 +24,8 @@ function mostrarPlaylist() {
         player = new YT.Player('yt-player', {
             width: '100%',
             height: '100%',
-            
             playerVars: {
+                listType: 'playlist',
                 list: 'PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5',
                 rel: 0,
                 autoplay: 0,
@@ -180,8 +180,10 @@ function renderPlaylist(videos) {
         li.textContent = `${v.title} — ${v.author}`;
         li.onclick = () => {
             fecharModalPlaylist();
-            if (window.player && typeof window.player.loadVideoById === 'function') {
-                window.player.loadVideoById(v.videoId);
+            if (window.player && typeof window.player.playVideoAt === 'function') {
+                window.player.playVideoAt(v.index);
+            } else {
+                console.warn('playVideoAt não disponível');
             }
         };
         ul.appendChild(li);
