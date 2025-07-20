@@ -214,6 +214,79 @@ body {
     background: linear-gradient(to right, #e53935 0%, #333 0%);
 }
 
+/* Modal da playlist */
+.playlist-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(20, 20, 20, 0.98);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playlist-modal-content {
+    width: 100vw;
+    max-width: 500px;
+    background: #181818;
+    border-radius: 8px;
+    padding: 2rem 1rem 1rem 1rem;
+    box-shadow: 0 0 32px #000a;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+    min-height: 100vh;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#playlist-search {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    border: none;
+    font-size: 1.2rem;
+    background: #222;
+    color: #fff;
+}
+
+#playlist-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+#playlist-list li {
+    padding: 0.7rem 0.5rem;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    color: #fff;
+    transition: background 0.2s;
+    font-size: 1.1rem;
+}
+
+#playlist-list li:hover {
+    background: #e53935;
+    color: #fff;
+}
+
 @media (orientation: landscape) {
     .botoes {
         width: 50%;

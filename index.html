@@ -38,6 +38,10 @@
 
 
   <div class="botoes" role="group" aria-label="Controles de mídia">
+    <button class="botao btn-shuffle" id="shuffle" aria-label="Shuffle">
+      <!-- Ícone SVG de shuffle -->
+      <svg viewBox="0 0 24 24"><path d="M4 4h2.5l5.5 7-5.5 7H4v-2h2l4-5-4-5H4V4zm16 0v2h-2l-4 5 4 5h2v2h-2.5l-5.5-7 5.5-7H20z"/></svg>
+    </button>
     <button class="botao btn-previous" id="previous" aria-label="Anterior">
       <!-- Ícone SVG de anterior -->
       <svg viewBox="0 0 24 24"><path d="M6 12l8-8v16z"/></svg>
@@ -51,12 +55,25 @@
       <!-- Ícone SVG de próximo -->
       <svg viewBox="0 0 24 24"><path d="M18 12l-8-8v16z"/></svg>
     </button>
+    <button class="botao btn-playlist" id="playlist" aria-label="Playlist">
+      <!-- Ícone SVG de playlist -->
+      <svg viewBox="0 0 24 24"><path d="M3 6h14v2H3V6zm0 4h14v2H3v-2zm0 4h10v2H3v-2zm16 0v4h-2v-4h-2l3-3 3 3h-2z"/></svg>
+    </button>
   </div>
+
+  <!-- Modal da playlist -->
+<div id="playlist-modal" class="playlist-modal" style="display:none;">
+  <div class="playlist-modal-content">
+    <button id="close-modal" class="close-modal" aria-label="Fechar">&times;</button>
+    <h2>Playlist</h2>
+    <input type="text" id="playlist-search" placeholder="Buscar vídeo..." autocomplete="off">
+    <ul id="playlist-list"></ul>
+  </div>
+</div>
 
 
 
 
 <script src="app.js" defer></script>
 </body>
-</html>
 </html>
