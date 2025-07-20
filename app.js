@@ -14,6 +14,7 @@ let player;
 let videoTitle = '';
 let videoAuthor = '';
 let duration = 0;
+let playlistData = [];
 
 // Função para inserir o player do YouTube na div .midia
 function mostrarPlaylist() {
@@ -43,6 +44,7 @@ function mostrarPlaylist() {
 function onPlayerReady(event) {
     atualizarInfo();
     atualizarTempo();
+    iniciarVerificacaoPlaylist(); // inicia polling para capturar playlist
 }
 
 function onPlayerStateChange(event) {
@@ -121,9 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') fecharModalPlaylist();
     });
 
-    // A busca não faz nada, pois não há lista
+    // Buscar na playlist
     document.getElementById('playlist-search').addEventListener('input', function () {
-        // Não faz nada
+        filtrarPlaylistModal(this.value);
     });
 });
 
@@ -133,26 +135,86 @@ function abrirModalPlaylist() {
     document.body.style.overflow = 'hidden';
     document.getElementById('playlist-search').value = '';
     document.getElementById('playlist-search').focus();
-
-    // Captura dados do vídeo atual do player
-    let titulo = '';
-    let autor = '';
-    if (window.player && typeof window.player.getVideoData === 'function') {
-        const data = window.player.getVideoData();
-        titulo = data.title || '';
-        autor = data.author || '';
-    }
-
-    // Exibe informações do vídeo atual no modal
-    document.getElementById('playlist-list').innerHTML =
-        `<li><strong>Título:</strong> ${titulo}</li>
-         <li><strong>Artista:</strong> ${autor}</li>
-         <li style="text-align:center;color:#aaa;">Use os controles do player para navegar pela playlist.</li>`;
+    // Renderiza a playlist carregada
+    renderPlaylist(playlistData);
 }
 
 function fecharModalPlaylist() {
     document.getElementById('playlist-modal').style.display = 'none';
     document.body.style.overflow = '';
+}
+
+// Função para buscar dados da playlist usando noembed
+async function fetchPlaylistData() {
+    if (!player || typeof player.getPlaylist !== 'function') return;
+    const ids = player.getPlaylist();
+    playlistData = ids.map((id, i) => ({ videoId: id, index: i, title: '', author: '' }));
+    for (let i = 0; i < playlistData.length; i++) {
+        try {
+            const res = await fetch(
+                `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${playlistData[i].videoId}`
+            );
+            const json = await res.json();
+            playlistData[i].title = json.title;
+            playlistData[i].author = json.author_name;
+        } catch (e) {
+            playlistData[i].title = 'Vídeo';
+            playlistData[i].author = '';
+        }
+    }
+    renderPlaylist(playlistData);
+}
+
+// Renderiza a lista da playlist no modal
+function renderPlaylist(videos) {
+    const ul = document.getElementById('playlist-list');
+    ul.innerHTML = '';
+    videos.forEach(v => {
+        const li = document.createElement('li');
+        li.textContent = `${v.title} — ${v.author}`;
+        li.onclick = () => {
+            fecharModalPlaylist();
+            if (window.player && typeof window.player.playVideoAt === 'function') {
+                window.player.playVideoAt(v.index);
+            }
+        };
+        ul.appendChild(li);
+    });
+}
+
+// Filtra a playlist no input de busca do modal
+function filtrarPlaylistModal(texto) {
+    const termo = texto.trim().toLowerCase();
+    const filtered = playlistData.filter(v =>
+        (v.title || '').toLowerCase().includes(termo) ||
+        (v.author || '').toLowerCase().includes(termo)
+    );
+    renderPlaylist(filtered);
+}
+
+// Polling para aguardar playlist carregada
+function iniciarVerificacaoPlaylist() {
+    const MAX_WAIT_TIME = 15000;
+    const POLLING_INTERVAL = 500;
+    let elapsedTime = 0;
+
+    const pollingTimer = setInterval(() => {
+        if (
+            player &&
+            typeof player.getPlaylist === 'function' &&
+            Array.isArray(player.getPlaylist()) &&
+            player.getPlaylist().length > 0
+        ) {
+            clearInterval(pollingTimer);
+            fetchPlaylistData();
+            return;
+        }
+        elapsedTime += POLLING_INTERVAL;
+        if (elapsedTime >= MAX_WAIT_TIME) {
+            clearInterval(pollingTimer);
+            console.warn('Playlist não carregou em tempo.');
+        }
+    }, POLLING_INTERVAL);
 }
 
 // Função para formatar tempo em mm:ss
