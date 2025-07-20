@@ -182,6 +182,12 @@ function renderPlaylist(videos) {
             fecharModalPlaylist();
             if (window.player && typeof window.player.playVideoAt === 'function') {
                 window.player.playVideoAt(v.index);
+                // Garante que o vídeo será executado
+                setTimeout(() => {
+                    if (window.player && typeof window.player.playVideo === 'function') {
+                        window.player.playVideo();
+                    }
+                }, 300);
             }
         };
         ul.appendChild(li);
