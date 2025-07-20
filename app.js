@@ -121,35 +121,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') fecharModalPlaylist();
     });
 
-    // Buscar na playlist
+    // A busca não faz nada, pois não há lista
     document.getElementById('playlist-search').addEventListener('input', function () {
-        mostrarListaPlaylist(this.value);
+        // Não faz nada
     });
 });
-
-// Substitua por sua chave de API do YouTube
-const YT_API_KEY = 'SUA_API_KEY_AQUI';
-const PLAYLIST_ID = 'PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5';
-
-let playlistVideos = [];
-
-// Busca os vídeos reais da playlist
-function buscarVideosPlaylist(callback) {
-    fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${PLAYLIST_ID}&key=${YT_API_KEY}`)
-        .then(res => res.json())
-        .then(data => {
-            playlistVideos = (data.items || []).map(item => ({
-                id: item.snippet.resourceId.videoId,
-                title: item.snippet.title,
-                author: item.snippet.videoOwnerChannelTitle || item.snippet.channelTitle || ''
-            }));
-            if (callback) callback();
-        })
-        .catch(() => {
-            // fallback: mantém lista fixa se erro
-            if (callback) callback();
-        });
-}
 
 // Modal playlist
 function abrirModalPlaylist() {
@@ -157,35 +133,13 @@ function abrirModalPlaylist() {
     document.body.style.overflow = 'hidden';
     document.getElementById('playlist-search').value = '';
     document.getElementById('playlist-search').focus();
-    if (playlistVideos.length === 0) {
-        buscarVideosPlaylist(() => mostrarListaPlaylist(''));
-    } else {
-        mostrarListaPlaylist('');
-    }
+    // Não mostra lista, pois o iframe já exibe a playlist
+    document.getElementById('playlist-list').innerHTML = '<li style="text-align:center;color:#aaa;">A playlist está disponível no player principal.</li>';
 }
 
 function fecharModalPlaylist() {
     document.getElementById('playlist-modal').style.display = 'none';
     document.body.style.overflow = '';
-}
-
-function mostrarListaPlaylist(filtro) {
-    const ul = document.getElementById('playlist-list');
-    ul.innerHTML = '';
-    const termo = filtro.trim().toLowerCase();
-    playlistVideos
-        .filter(v => v.title.toLowerCase().includes(termo))
-        .forEach(v => {
-            const li = document.createElement('li');
-            li.textContent = `${v.title} — ${v.author}`;
-            li.onclick = () => {
-                fecharModalPlaylist();
-                if (window.player && typeof window.player.loadVideoById === 'function') {
-                    window.player.loadVideoById(v.id);
-                }
-            };
-            ul.appendChild(li);
-        });
 }
 
 // Função para formatar tempo em mm:ss
