@@ -1,0 +1,162 @@
+:root {
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --gap: 1rem;
+    --font-size: clamp(1rem, 2.5vw, 2rem);
+    --btn-size: 40px;
+    --footer-height: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    font-size: var(--font-size);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    min-height: 0;
+}
+
+.midia, .controles {
+    flex: 1;
+    
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.midia {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 50%;
+    background-color: #121212;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controles {
+    padding-bottom: calc(var(--footer-height) + var(--gap));
+    justify-content: flex-start;
+}
+
+.info {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+    height: auto;
+    background: transparent;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+    z-index: 1000;
+    width: 100%;
+}
+
+.botoes {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--footer-height);
+    background: rgba(30, 30, 30, 0.95);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 1rem;
+    z-index: 1000;
+}
+
+.botoes button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: var(--btn-size);
+    height: var(--btn-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    color: var(--text-color);
+}
+
+.botoes button:hover, .botoes button:focus {
+    transform: scale(1.1);
+    outline: none;
+}
+
+.botoes svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--text-color);
+    pointer-events: none;
+}
+
+.info-video {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-artista {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progressive-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+@media (orientation: landscape) {
+    .botoes {
+        width: 50%;
+        left: 50%;
+    }
+
+    .info {
+        width: 50%;
+        left: 50%;
+    }
+}
+
+@media (orientation: portrait) {
+    .container {
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .midia {
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        height: auto;
+    }
+
+    .controles {
+        flex: 1 1 auto;
+    }
+}
