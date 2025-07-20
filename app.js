@@ -24,7 +24,7 @@ function mostrarPlaylist() {
         player = new YT.Player('yt-player', {
             width: '100%',
             height: '100%',
-            videoId: 'xiN4EOqpvwc',
+            
             playerVars: {
                 list: 'PLX_YaKXOr1s6u6O3srDxVJn720Zi2RRC5',
                 rel: 0,
@@ -44,7 +44,9 @@ function mostrarPlaylist() {
 function onPlayerReady(event) {
     atualizarInfo();
     atualizarTempo();
+    setTimeout(iniciarVerificacaoPlaylist, 1000);
     iniciarVerificacaoPlaylist(); // inicia polling para capturar playlist
+    
 }
 
 function onPlayerStateChange(event) {
@@ -135,8 +137,12 @@ function abrirModalPlaylist() {
     document.body.style.overflow = 'hidden';
     document.getElementById('playlist-search').value = '';
     document.getElementById('playlist-search').focus();
-    // Renderiza a playlist carregada
-    renderPlaylist(playlistData);
+    const ul = document.getElementById('playlist-list');
+    ul.innerHTML = '<li>Carregando playlist...</li>';
+
+    if (playlistData.length > 0) {
+        renderPlaylist(playlistData);
+    }
 }
 
 function fecharModalPlaylist() {
