@@ -133,8 +133,21 @@ function abrirModalPlaylist() {
     document.body.style.overflow = 'hidden';
     document.getElementById('playlist-search').value = '';
     document.getElementById('playlist-search').focus();
-    // Não mostra lista, pois o iframe já exibe a playlist
-    document.getElementById('playlist-list').innerHTML = '<li style="text-align:center;color:#aaa;">A playlist está disponível no player principal.</li>';
+
+    // Captura dados do vídeo atual do player
+    let titulo = '';
+    let autor = '';
+    if (window.player && typeof window.player.getVideoData === 'function') {
+        const data = window.player.getVideoData();
+        titulo = data.title || '';
+        autor = data.author || '';
+    }
+
+    // Exibe informações do vídeo atual no modal
+    document.getElementById('playlist-list').innerHTML =
+        `<li><strong>Título:</strong> ${titulo}</li>
+         <li><strong>Artista:</strong> ${autor}</li>
+         <li style="text-align:center;color:#aaa;">Use os controles do player para navegar pela playlist.</li>`;
 }
 
 function fecharModalPlaylist() {
