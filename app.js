@@ -180,14 +180,8 @@ function renderPlaylist(videos) {
         li.textContent = `${v.title} — ${v.author}`;
         li.onclick = () => {
             fecharModalPlaylist();
-            if (window.player && typeof window.player.playVideoAt === 'function') {
-                window.player.playVideoAt(v.index);
-                // Garante que o vídeo será executado
-                setTimeout(() => {
-                    if (window.player && typeof window.player.playVideo === 'function') {
-                        window.player.playVideo();
-                    }
-                }, 300);
+            if (window.player && typeof window.player.loadVideoById === 'function') {
+                window.player.loadVideoById(v.videoId);
             }
         };
         ul.appendChild(li);
@@ -230,6 +224,12 @@ function iniciarVerificacaoPlaylist() {
 }
 
 // Função para formatar tempo em mm:ss
+function formatarTempo(segundos) {
+    segundos = Math.floor(segundos);
+    const min = Math.floor(segundos / 60);
+    const sec = segundos % 60;
+    return `${min}:${sec.toString().padStart(2, '0')}`;
+}
 function formatarTempo(segundos) {
     segundos = Math.floor(segundos);
     const min = Math.floor(segundos / 60);
