@@ -17,7 +17,7 @@ body, html {
     height: 100%;
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     font-size: var(--font-size);
 }
 
@@ -51,6 +51,15 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.midia iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    background: #000;
+    border: none;
+    display: block;
 }
 
 .controles {
@@ -99,6 +108,8 @@ body {
     justify-content: center;
     transition: transform 0.2s ease;
     color: var(--text-color);
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 1.5rem;
 }
 
 .botoes button:hover, .botoes button:focus {
@@ -107,10 +118,11 @@ body {
 }
 
 .botoes svg {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     fill: var(--text-color);
     pointer-events: none;
+    display: block;
 }
 
 .info-video {

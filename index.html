@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Layout com Botões Fixos no Rodapé</title>
   <link rel="stylesheet" href="styles.css">
-
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -18,17 +18,18 @@
     <div class="controles">
 
 <div class="info">
-
-      <div class="info-video">
-        The Best Of The Best
-      </div>
-      <div class="info-artista">
-        Mariah carey
-      </div>
-      <div class="progressive-bar">
-        bara de progresso
-      </div>
-
+  <div class="info-video" id="info-video">
+    <!-- Título do vídeo -->
+  </div>
+  <div class="info-artista" id="info-artista">
+    <!-- Nome do artista -->
+  </div>
+  <div class="progressive-bar" id="progressive-bar">
+    <!-- Barra de progresso -->
+    <span id="current-time">0:00</span>
+    <input type="range" id="progress-bar" min="0" max="100" value="0" style="width:60%;">
+    <span id="duration">0:00</span>
+  </div>
 </div>
 
     </div>
@@ -37,20 +38,19 @@
 
 
   <div class="botoes" role="group" aria-label="Controles de mídia">
-    
-      <button class="botao" id="previous" aria-label="Previous">
-      <img src="previous.svg" alt="Previous">
+    <button class="botao btn-previous" id="previous" aria-label="Anterior">
+      <!-- Ícone SVG de anterior -->
+      <svg viewBox="0 0 24 24"><path d="M6 12l8-8v16z"/></svg>
     </button>
-     <button class="botao" id="play-pause" aria-label="Play/Pause">
-      <img src="play.svg" alt="Play">
+    <button class="botao btn-play-pause" id="play-pause" aria-label="Play/Pause">
+      <!-- Ícone SVG de play/pause (play por padrão) -->
+      <svg id="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      <svg id="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
     </button>
-    
-    <button class="botao" id="next" aria-label="Next">
-      <img src="next.svg" alt="Next">
+    <button class="botao btn-next" id="next" aria-label="Próximo">
+      <!-- Ícone SVG de próximo -->
+      <svg viewBox="0 0 24 24"><path d="M18 12l-8-8v16z"/></svg>
     </button>
-
-   
-  
   </div>
 
 
@@ -58,4 +58,5 @@
 
 <script src="app.js" defer></script>
 </body>
+</html>
 </html>
