@@ -1,17 +1,19 @@
 @font-face {
-        font-family: 'Roboto';
-        src: url('./fonts/Roboto-Regular.woff2') format('woff2');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-    }
+    font-family: 'Roboto';
+    src: url('./fonts/Roboto-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 @font-face {
-        font-family: 'Roboto';
-        src: url('./fonts/Roboto-Bold.woff2') format('woff2');
-        font-weight: 400;
-        font-style: Bold;
-        font-display: swap;
-    }
+    font-family: 'Roboto';
+    src: url('./fonts/Roboto-Bold.woff2') format('woff2');
+    font-weight: 400;
+    font-style: Bold;
+    font-display: swap;
+}
+
 :root {
     --bg-color: #000000;
     --text-color: #ffffff;
@@ -27,7 +29,8 @@
     box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
     height: 100%;
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -47,9 +50,9 @@ body {
     min-height: 0;
 }
 
-.midia, .controles {
+.midia,
+.controles {
     flex: 1;
-    
     display: flex;
     flex-direction: column;
     overflow: auto;
@@ -95,7 +98,6 @@ body {
     /* padding: 0 1rem; */
     z-index: 1000;
     width: 100%;
-    text-align: center;
 }
 
 .botoes {
@@ -127,7 +129,8 @@ body {
     font-size: 1.5rem;
 }
 
-.botoes button:hover, .botoes button:focus {
+.botoes button:hover,
+.botoes button:focus {
     transform: scale(1.1);
     outline: none;
 }
@@ -145,12 +148,14 @@ body {
     align-items: center;
     justify-content: center;
     padding: 0 0.5rem;
+    font-size: var(--font-size);
 }
 
 .info-artista {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #909090
 }
 
 .progressive-bar {
@@ -211,6 +216,7 @@ body {
     height: 8px;
     border-radius: 4px;
 }
+
 #progress-bar::-moz-range-track {
     background-color: #333;
     height: 8px;
@@ -221,6 +227,7 @@ body {
     background-color: #ff0000;
     border-radius: 4px;
 }
+
 #progress-bar::-ms-fill-upper {
     background-color: #333;
     border-radius: 4px;
@@ -316,6 +323,14 @@ body {
         left: 50%;
         text-align: center;
     }
+
+    .info-video {
+        font-size: 1.2rem;
+    }
+
+    .info-artista {
+        font-size: 1rem;
+    }
 }
 
 @media (orientation: portrait) {
@@ -332,5 +347,13 @@ body {
 
     .controles {
         flex: 1 1 auto;
+    }
+
+    .info-video {
+        font-size: 1.4rem;
+    }
+
+    .info-artista {
+        font-size: 1.3rem;
     }
 }
