@@ -184,11 +184,11 @@ function renderPlaylist(videos) {
             fecharModalPlaylist();
 
             try {
-                const playlistIds = window.player?.getPlaylist?.();
+                const playlistIds = player?.getPlaylist?.();
                 if (Array.isArray(playlistIds)) {
                     const index = playlistIds.indexOf(v.videoId);
-                    if (index !== -1 && typeof window.player.playVideoAt === 'function') {
-                        window.player.playVideoAt(index);
+                    if (index !== -1 && typeof player.playVideoAt === 'function') {
+                        player.playVideoAt(index);
                         return;
                     }
                 }
@@ -196,9 +196,9 @@ function renderPlaylist(videos) {
                 console.warn('Erro ao acessar playlist interna:', e);
             }
 
-            // Fallback direto com videoId (se playVideoAt não funcionar)
-            if (typeof window.player.loadVideoById === 'function') {
-                window.player.loadVideoById(v.videoId);
+            // Fallback direto com videoId
+            if (typeof player?.loadVideoById === 'function') {
+                player.loadVideoById(v.videoId);
             } else {
                 console.warn('Nenhuma forma de reproduzir o vídeo está disponível.');
             }
