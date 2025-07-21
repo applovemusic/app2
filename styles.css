@@ -350,10 +350,11 @@ body {
     }
 
     .info-video {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
+        text-align: center;
     }
 
     .info-artista {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 }
