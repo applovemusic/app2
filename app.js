@@ -183,22 +183,31 @@ function renderPlaylist(videos) {
         li.onclick = () => {
             fecharModalPlaylist();
 
-            if (window.player && typeof window.player.playVideoAt === 'function') {
-                const playlistIds = window.player.getPlaylist();
-                const index = playlistIds.indexOf(v.videoId);
-                if (index !== -1) {
-                    window.player.playVideoAt(index);
-                } else {
-                    console.warn('Vídeo não encontrado na playlist atual.');
+            try {
+                const playlistIds = window.player?.getPlaylist?.();
+                if (Array.isArray(playlistIds)) {
+                    const index = playlistIds.indexOf(v.videoId);
+                    if (index !== -1 && typeof window.player.playVideoAt === 'function') {
+                        window.player.playVideoAt(index);
+                        return;
+                    }
                 }
+            } catch (e) {
+                console.warn('Erro ao acessar playlist interna:', e);
+            }
+
+            // Fallback direto com videoId (se playVideoAt não funcionar)
+            if (typeof window.player.loadVideoById === 'function') {
+                window.player.loadVideoById(v.videoId);
             } else {
-                console.warn('playVideoAt não disponível');
+                console.warn('Nenhuma forma de reproduzir o vídeo está disponível.');
             }
         };
 
         ul.appendChild(li);
     });
 }
+
 
 
 // Filtra a playlist no input de busca do modal
