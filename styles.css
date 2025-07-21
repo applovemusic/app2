@@ -234,12 +234,13 @@ body {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    /*height: 100vh;*/
     background: rgba(20, 20, 20, 0.98);
     z-index: 2000;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow-y: auto;
 }
 
 .playlist-modal-content {
