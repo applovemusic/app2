@@ -198,7 +198,7 @@ body {
 
 /* Cor vermelha para o progresso */
 #progress-bar::-webkit-slider-runnable-track {
-    background: linear-gradient(to right, #e53935 var(--progress, 0%), #333 var(--progress, 0%));
+    background: linear-gradient(to right, #ff0000 var(--progress, 0%), #333 var(--progress, 0%));
     height: 8px;
     border-radius: 4px;
 }
@@ -215,7 +215,7 @@ body {
 }
 
 #progress-bar::-ms-fill-lower {
-    background-color: #e53935;
+    background-color: #ff0000;
     border-radius: 4px;
 }
 #progress-bar::-ms-fill-upper {
@@ -225,7 +225,7 @@ body {
 
 /* Para Firefox */
 #progress-bar {
-    background: linear-gradient(to right, #e53935 0%, #333 0%);
+    background: linear-gradient(to right, #ff0000 0%, #333 0%);
 }
 
 /* Modal da playlist */
@@ -283,7 +283,7 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
-    max-height: 50vh;
+    /*max-height: 50vh;*/
     overflow-y: auto;
 }
 
